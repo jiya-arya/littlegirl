@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>I am Sorry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fbf3c9;
+      --butter: #f6e7a1;
+      --pink: #ead1ee;
+      --pink-deep: #d9b4df;
+      --ink: #2b2433;
+      --star-1: #e8798c;
+      --star-2: #6c8fd8;
+      --star-3: #f0a35e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Patrick Hand", "Comic Sans MS", cursive;
+      color: var(--ink);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* vertical butter stripes */
+      background:
+        repeating-linear-gradient(90deg,
+          var(--cream) 0 38px,
+          var(--butter) 38px 76px);
+      position: relative;
+    }
+
+    /* scattered stars layer */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><g><path d='M30 20l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z' fill='%23e8798c'/><path d='M150 60l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z' fill='%236c8fd8'/><path d='M90 140l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z' fill='%23f0a35e'/><path d='M190 170l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z' fill='%23e8798c'/><path d='M20 180l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z' fill='%236c8fd8'/></g></svg>");
+      background-size: 220px 220px;
+      opacity: .85;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      width: min(92vw, 520px);
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    /* message box */
+    .msg {
+      background: var(--pink);
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 14px 26px;
+      font-size: clamp(22px, 5.4vw, 30px);
+      line-height: 1.2;
+      max-width: 100%;
+      box-shadow: 3px 4px 0 rgba(43, 36, 51, .18);
+    }
+
+    /* sticker */
+    .sticker {
+      height: clamp(120px, 26vh, 190px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sticker img {
+      max-height: 100%;
+      max-width: 220px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 6px rgba(43, 36, 51, .25));
+    }
+
+    .sticker .emoji {
+      font-size: clamp(90px, 20vh, 140px);
+      line-height: 1;
+      filter: drop-shadow(0 6px 6px rgba(43, 36, 51, .25));
+    }
+
+    .pop {
+      animation: pop .45s cubic-bezier(.2, 1.6, .4, 1);
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(.4) rotate(-8deg);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+      }
+    }
+
+    /* buttons */
+    .actions {
+      position: relative;
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 64px;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: clamp(17px, 4.2vw, 20px);
+      line-height: 1.15;
+      color: var(--ink);
+      background: var(--pink);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 12px 24px;
+      min-width: 130px;
+      max-width: 200px;
+      cursor: pointer;
+      transition: transform .12s ease, background .12s ease;
+      box-shadow: 2px 3px 0 rgba(43, 36, 51, .2);
+    }
+
+    .btn:hover {
+      background: var(--pink-deep);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(.97);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--star-2);
+      outline-offset: 3px;
+    }
+
+    /* the dodging "No" button */
+    .btn.dodge {
+      position: fixed;
+      z-index: 5;
+      transition: left .18s ease, top .18s ease, transform .12s ease;
+    }
+
+    /* final page */
+    .final h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(30px, 8vw, 46px);
+      line-height: 1.15;
+    }
+
+    .sign {
+      width: min(78vw, 300px);
+      background: #d9c3ef;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      padding: 22px 12px;
+      font-size: clamp(34px, 9vw, 48px);
+      line-height: 1;
+      transform: rotate(-3deg);
+      box-shadow: 4px 5px 0 rgba(43, 36, 51, .2);
+    }
+
+    .face {
+      font-size: 64px;
+      line-height: 1;
+      margin-bottom: -10px;
+    }
+
+    .replay {
+      margin-top: 6px;
+      font-family: inherit;
+      font-size: 16px;
+      background: none;
+      border: none;
+      text-decoration: underline;
+      color: var(--ink);
+      opacity: .7;
+      cursor: pointer;
+    }
+
+    /* envelope */
+    .envelope-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .envelope-hint {
+      font-size: clamp(22px, 5.4vw, 28px);
+    }
+
+    .envelope {
+      position: relative;
+      width: min(76vw, 280px);
+      aspect-ratio: 7 / 5;
+      background: var(--pink-deep);
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 4px 6px 0 rgba(43, 36, 51, .2);
+      animation: wiggle 2.2s ease-in-out infinite;
+      font: inherit;
+      padding: 0;
+    }
+
+    .envelope:focus-visible {
+      outline: 3px solid var(--star-2);
+      outline-offset: 4px;
+    }
+
+    .envelope::before {
+      /* flap */
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 58%;
+      background: var(--pink);
+      border: 2px solid var(--ink);
+      border-radius: 8px 8px 0 0;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      margin: -2px -2px 0;
+    }
+
+    .envelope .seal {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      font-size: 34px;
+      z-index: 2;
+    }
+
+    @keyframes wiggle {
+
+      0%,
+      100% {
+        transform: rotate(-1.5deg);
+      }
+
+      50% {
+        transform: rotate(1.5deg);
+      }
+    }
+
+    /* letter paper */
+    .letter {
+      width: min(92vw, 480px);
+      max-height: 78vh;
+      max-height: 78dvh;
+      overflow-y: auto;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 31px, rgba(108, 143, 216, .28) 31px 32px),
+        #fffdf3;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 26px 24px 20px;
+      text-align: left;
+      box-shadow: 4px 6px 0 rgba(43, 36, 51, .22);
+      animation: slideUp .6s cubic-bezier(.2, .9, .3, 1);
+    }
+
+    .letter .to {
+      font-size: clamp(24px, 6vw, 30px);
+      margin-bottom: 8px;
+    }
+
+    .letter p {
+      font-size: clamp(18px, 4.6vw, 21px);
+      line-height: 32px;
+      margin-bottom: 14px;
+    }
+
+    .letter .ps {
+      font-size: clamp(17px, 4.2vw, 19px);
+      opacity: .85;
+    }
+
+    .letter .from {
+      font-size: clamp(22px, 5.4vw, 26px);
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(60px) scale(.94);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      z-index: 1;
+      pointer-events: none;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-115vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .pop,
+      .heart {
+        animation: none;
+      }
+
+      .btn.dodge {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main id="app"></main>
+
+  <script>
+    /* ------------------------------------------------------------------
+       EDIT HERE ✏️
+       - text:     message box ka text
+       - sticker:  emoji ya image ka path/URL (jaise "cat.png" ya "https://...")
+       - yes / no: dono buttons ka text
+       Left button (yes) = maaf kar diya  → seedha final page
+       Right button (no) = agla page
+       Last page par "No" button bhaag jaata hai.
+    ------------------------------------------------------------------- */
+    const pages = [
+      { text: "Am Sorrryyy", sticker: "🥺", yes: "Aww, okay", no: "Not Accepted" },
+      { text: "Pleaseeeeee", sticker: "😁", yes: "Chl theeek haii", no: "Nahh" },
+      { text: "Are you sure?", sticker: "🥹", yes: "Okay, forgiven", no: "Yes, I'm sure" },
+      { text: "Flowers for you", sticker: "💐", yes: "Aww, forgiven", no: "Not enough" },
+      { text: "Okay Cake too...", sticker: "🍰", yes: "Cake?! I forgive you", no: "Still not enough" },
+      { text: "Momos?", sticker: "🥟", yes: "Okay!! Fine", no: "NO" },
+      { text: "Okay I'm leaving now, don't miss me", sticker: "🚲", yes: "Wait, don't go! Forgiven", no: "Okay Byeee" },
+      { text: "Wanna fight?", sticker: "🐰", yes: "Fine fine, forgiven", no: "Yes, why not" },
+      { text: "No, I can't fight you", sticker: "🐇", yes: "Aww, I can't either, forgiven", no: "Good because I'm still mad" },
+      { text: "Please, I won't do it again", sticker: "🙏", yes: "Okay, Accepted", no: "NO NO NO" },
+      { text: "You can't click \"No\" now, try clicking if you want", sticker: "🐵", yes: "Fine! forgiven", no: "No", dodge: true }
+    ];
+
+    const finalPage = {
+      title: "Yayyyyy!! Thank you for forgiving",
+      sign: "you are amazing"
+    };
+    /* ------------------------------------------------------------------ */
+
+    const app = document.getElementById("app");
+    let current = 0;
+    let heartTimer = null;
+
+    function stickerHTML(s) {
+      const isImg = /\.(png|jpe?g|gif|webp|svg)$/i.test(s) || /^https?:\/\//i.test(s);
+      return isImg
+        ? `<img src="${s}" alt="">`
+        : `<span class="emoji" role="img" aria-label="sticker">${s}</span>`;
+    }
+
+    function render() {
+      const p = pages[current];
+      app.className = "";
+      app.innerHTML = `
+    <div class="msg"></div>
+    <div class="sticker pop">${stickerHTML(p.sticker)}</div>
+    <div class="actions">
+      <button class="btn" id="yes"></button>
+      <button class="btn" id="no"></button>
+    </div>`;
+
+      app.querySelector(".msg").textContent = p.text;
+      const yes = document.getElementById("yes");
+      const no = document.getElementById("no");
+      yes.textContent = p.yes;
+      no.textContent = p.no;
+
+      yes.addEventListener("click", showFinal);
+
+      if (p.dodge) {
+        setupDodge(no);
+      } else {
+        no.addEventListener("click", () => {
+          current = Math.min(current + 1, pages.length - 1);
+          render();
+        });
+      }
+    }
+
+    /* "No" button bhaagta hai jab mouse/touch paas aaye */
+    function setupDodge(btn) {
+      const move = (e) => {
+        if (e) e.preventDefault();
+        btn.classList.add("dodge");
+        const pad = 12;
+        const w = btn.offsetWidth, h = btn.offsetHeight;
+        const maxX = window.innerWidth - w - pad;
+        const maxY = window.innerHeight - h - pad;
+        btn.style.left = pad + Math.random() * Math.max(0, maxX - pad) + "px";
+        btn.style.top = pad + Math.random() * Math.max(0, maxY - pad) + "px";
+      };
+      btn.addEventListener("mouseenter", move);
+      btn.addEventListener("touchstart", move, { passive: false });
+      btn.addEventListener("click", move);
+      btn.addEventListener("focus", move);
+    }
+
+    function showFinal() {
+      app.className = "final";
+      app.innerHTML = `
+    <h1></h1>
+    <div class="face pop">😊</div>
+    <div class="sign pop"></div>
+    <button class="btn" id="letterBtn">Ek letter hai tere liye 💌</button>
+    <button class="replay" id="replay">play again</button>`;
+      app.querySelector("h1").textContent = finalPage.title;
+      app.querySelector(".sign").textContent = finalPage.sign;
+      document.getElementById("letterBtn").addEventListener("click", showEnvelope);
+      document.getElementById("replay").addEventListener("click", () => {
+        stopHearts();
+        current = 0;
+        render();
+      });
+      startHearts();
+    }
+
+    /* hearts animation */
+    function startHearts() {
+      stopHearts();
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+      const icons = ["💜", "💖", "💗", "💕", "✨"];
+      heartTimer = setInterval(() => {
+        const h = document.createElement("span");
+        h.className = "heart";
+        h.textContent = icons[Math.floor(Math.random() * icons.length)];
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = 18 + Math.random() * 28 + "px";
+        h.style.animationDuration = 4 + Math.random() * 4 + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 8500);
+      }, 260);
+    }
+    function stopHearts() {
+      clearInterval(heartTimer);
+      document.querySelectorAll(".heart").forEach(h => h.remove());
+    }
+
+    /* ------------------------------------------------------------------
+       LETTER ✉️  — yahan apna naam / letter ka text badal sakte ho
+    ------------------------------------------------------------------- */
+    const letter = {
+      to: "Dear [uska naam],",
+      from: "Tera apna, [tera naam]",
+      paragraphs: [
+        "Sach bolun toh mujhe nahi pata ki kisi ko manate kaise hain. Mere paas koi fancy words nahi hain, na koi perfect tareeka. Bas itna pata hai ki tu mere liye bahut important hai, aur tujhse naraaz rehna mujhe sabse zyada khalta hai.",
+        "Par fir bhi, agar maine kisi bhi reason se tujhe hurt kiya hai, chahe meri kisi baat se, mere gusse se, meri laparwahi se, ya bina soche kuch bol dene se, toh I am really sorry. Ho sakta hai mujhe khud bhi na pata ho ki kaunsi baat tujhe chubh gayi, lekin tera dukh mere liye bilkul real hai.",
+        "Main koi excuse nahi dena chahta, na ye kehna chahta hoon ki tu galat hai. Main bas tujhe sunna chahta hoon, samajhna chahta hoon, aur agli baar se better banna chahta hoon. Galti se seekhna meri zimmedari hai, tujhe sahna nahi padna chahiye.",
+        "Sach ye hai ki tere bina din adhoora lagta hai. Teri chhoti chhoti baatein, teri hasi, teri bakbak, sab bahut miss karta hoon. Tu wo insaan hai jiske saath chup rehna bhi acha lagta hai.",
+        "Isliye please, thoda sa gussa kam kar de. Aur agar tune mujhe maaf kar diya hai, toh thank you, sach me. Aur agar abhi bhi dil me thoda sa gussa baaki hai, toh koi baat nahi. Tu apna time le le, main yahin hoon, kahin nahi ja raha. Bas mujhe tujhe wapas muskurata hua dekhna hai.",
+        "Aur haan, wo cute cute stickers aur cake, momos waali koshishein bhi mene tujhe hasane ke liye hi ki thi 🙈"
+      ],
+      ps: "P.S. Main sach me sorry hoon. Dil se. 💜"
+    };
+
+    function showEnvelope() {
+      app.className = "";
+      app.innerHTML = `
+    <div class="envelope-wrap">
+      <div class="envelope-hint">Last me ek chhoti si letter 💌</div>
+      <button class="envelope" id="env" aria-label="Open the letter"><span class="seal">💗</span></button>
+      <div>Khol ke dekh...</div>
+    </div>`;
+      document.getElementById("env").addEventListener("click", showLetter);
+    }
+
+    function showLetter() {
+      app.className = "";
+      app.innerHTML = `
+    <div class="letter" id="paper">
+      <div class="to"></div>
+    </div>
+    <button class="replay" id="go">play again</button>`;
+      const paper = document.getElementById("paper");
+      paper.querySelector(".to").textContent = letter.to;
+      letter.paragraphs.forEach(t => {
+        const p = document.createElement("p");
+        p.textContent = t;
+        paper.appendChild(p);
+      });
+      const ps = document.createElement("p");
+      ps.className = "ps";
+      ps.textContent = letter.ps;
+      paper.appendChild(ps);
+      const from = document.createElement("div");
+      from.className = "from";
+      from.textContent = letter.from;
+      paper.appendChild(from);
+      document.getElementById("go").addEventListener("click", () => {
+        stopHearts();
+        current = 0;
+        render();
+      });
+    }
+
+    render();
+  </script>
+</body>
+
+</html>
